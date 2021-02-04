@@ -1,5 +1,5 @@
 import color from 'color';
-export default function draw(c, names = ['1234444']) {
+export default function draw(c, names = []) {
   //SETUP
   var ctx = c.getContext("2d");
 
@@ -164,7 +164,7 @@ export default function draw(c, names = ['1234444']) {
     drops[0].hit = true;
     drops[0].color = backgroundColor;
     //Check if all the drops have been hit
-    for (var i = 0; i < drops.length; i++) {
+    for (let i = 0; i < drops.length; i++) {
       if (drops[i].hit === false) {
         allHit = false;
       }
@@ -183,7 +183,7 @@ export default function draw(c, names = ['1234444']) {
       //Invoke rainbow color effect
       rainbowFunction(0);
       // reset hit to false
-      for (var i = 0; i < drops.length; i++) {
+      for (let i = 0; i < drops.length; i++) {
         drops[i].hit = false;
       }
     }
