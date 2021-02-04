@@ -10,6 +10,8 @@ cache:
 before_script:
   - yarn install --frozen-lockfile
 
+after_script:
+  - cp -r -f build/* public
 
 pages:
   stage: deploy
@@ -19,6 +21,6 @@ pages:
   - yarn build
   artifacts:
     paths:
-    - build
+    - public
   only:
   - master
