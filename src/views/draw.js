@@ -1,3 +1,4 @@
+import color from 'color';
 export default function draw(c, names = ['1234444']) {
   //SETUP
   var ctx = c.getContext("2d");
@@ -6,8 +7,9 @@ export default function draw(c, names = ['1234444']) {
   c.height = window.innerHeight;
   c.width = window.innerWidth;
 
-  var backgroundColor = "rgba(0, 0, 0, 0.05)";
-  const defaultSpeed = 90;
+  const backgroundColor = "rgba(0, 0, 0, 0.15)";
+  const defaultSpeed = 50;
+  const space = 0.3;
   const font_size = 12;
   var columns = c.width / font_size; //number of columns for the rain
   //an array of drops - one per column
@@ -187,20 +189,24 @@ export default function draw(c, names = ['1234444']) {
     }
   }, 100);
 
-  function Drop() {
-    this.y = 1000;
-    this.hide = function () {
+  class Drop {
+    constructor() {
+      this.hit = false;
+      this.language = LangManager.currentLang;
+      this.y = 1000;
+      this.color = "#0F0";
+    }
+
+    hide() {
       this.color = backgroundColor;
       this.y = -10000;
     };
 
-    this.hit = false;
-    this.language = LangManager.currentLang;
-    this.setColor = function (col) {
+    setColor(col) {
       this.color = col;
     };
   }
-  Drop.prototype.color = "#0F0";
+
 
   for (var x = 0; x < columns; x++) {
     drops[x] = new Drop();
@@ -224,17 +230,19 @@ export default function draw(c, names = ['1234444']) {
     for (var i = 0; i < drops.length; i++) {
       //a random chinese character to print
       var text = letters[i % letters.length];
-      console.log(letters, text);
       //x = i*font_size, y = value of drops[i]*font_size
 
       //sending the drop back to the top randomly after it has crossed the screen
       //adding a randomness to the reset to make the drops scattered on the Y axis
-      if (drops[i].y * font_size > c.height && Math.random() > 0.975)
+      if (drops[i].y * font_size > c.height && Math.random() > 0.975) {
         drops[i].y = 0;
+      }
 
-      drops[i].y++;
-      ctx.fillStyle = drops[i].color;
-      ctx.fillText(text, i * font_size, drops[i].y * font_size);
+      drops[i].y += text.length + space;
+      for (let j = 0; j < text.length; j++) {
+        ctx.fillStyle = color(drops[i].color).lighten((j / text.length) * 0.5);
+        ctx.fillText(text[j], i * font_size, (drops[i].y + j) * font_size);  
+      }
     }
   }
 
