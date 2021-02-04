@@ -2,6 +2,7 @@
   "name": "lottery",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://h5.pages.leyantech.com/lottery/",
   "dependencies": {
     "@emotion/css": "^11.1.3",
     "@testing-library/jest-dom": "^5.11.4",
