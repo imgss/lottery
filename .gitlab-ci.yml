@@ -1,5 +1,16 @@
 image: registry.leyantech.com/infra/node:14.15.1-stretch
 
+cache:
+  key:
+    files:
+      - yarn.lock
+  paths:
+    - node_modules
+
+before_script:
+  - yarn install --frozen-lockfile
+
+
 pages:
   stage: deploy
   script:
