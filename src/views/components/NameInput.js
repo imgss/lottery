@@ -1,7 +1,7 @@
 import { useContext, useState, useCallback } from "react";
 import { css } from "@emotion/css";
 
-import Context from "./context";
+import Context from "../context";
 
 const styles = {
   userList: css`
@@ -18,7 +18,7 @@ const styles = {
 };
 
 export default function NameInput(props = {}) {
-  const { users = [], addNames, luckyCount, setLuckyCount } = useContext(Context);
+  const { users = [], addNames, luckyCount, setLuckyCount, clearNames } = useContext(Context);
   const [val, setVal] = useState("");
   const handleAdd = useCallback(() => {
     addNames(val);
@@ -26,7 +26,7 @@ export default function NameInput(props = {}) {
   }, [addNames, val]);
   return (
     <div>
-      <p>请输入候选人姓名</p>
+      <p>请输入候选人姓名 </p>
       <div>
         <input
           type="text"
@@ -48,7 +48,14 @@ export default function NameInput(props = {}) {
           max={users.length}
           onChange={(e) => setLuckyCount(+e.target.value)}/>
       </div>
-      {users.length ? <h5>已添加{users.length}个候选人</h5> : null}
+      {
+        users.length ?
+        <h5>
+          已添加{users.length}个候选人
+          <button onClick={() => clearNames()}>清空</button>
+        </h5>
+        : null
+      }
       <ul className={styles.userList}>
         {users.map((name) => {
           return <li key={name}>{name}</li>;

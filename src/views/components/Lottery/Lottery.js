@@ -1,5 +1,5 @@
 import { useContext, useCallback } from "react";
-import Context from "./context";
+import Context from "../../context";
 import draw from "./draw";
 
 export default function Lottery() {

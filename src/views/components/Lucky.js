@@ -1,5 +1,5 @@
 import { css, keyframes, cx } from "@emotion/css/macro";
-import { random } from "../utils/getLucky";
+import { random } from "../../utils/getLucky";
 
 // from https://codepen.io/lbebber/pen/ypgql
 const getKeyframes = function () {
@@ -27,8 +27,9 @@ const styles = {
     gap: 30px;
   `,
   container: css`
-    background: black;
+    background: rgba(0,0,0,0.65);
     font-family: "Varela", sans-serif;
+    padding: 20px;
     position: fixed;
     top: 0;
     left: 0;
