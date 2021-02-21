@@ -1,5 +1,6 @@
 import { css, keyframes, cx } from "@emotion/css/macro";
 import { random } from "../../utils/getLucky";
+import { motion } from "framer-motion";
 
 // from https://codepen.io/lbebber/pen/ypgql
 const getKeyframes = function () {
@@ -70,16 +71,46 @@ const styles = {
     }
   `,
 };
+
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2
+    }
+  }
+};
+
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1
+  }
+};
+
 export default function Lucky(props) {
   const { lucks = [] } = props;
 
   return (
-    <div className={styles.container}>
+    <motion.div
+      className={styles.container}
+      variants={container}
+      initial="hidden"
+      animate="visible"
+
+    >
       <div>获奖锦鲤</div>
-      <div className={styles.lucky}>
+      <div
+        className={styles.lucky}
+      >
         {lucks.map((name) => (
-          <span
+          <motion.span
             key={name}
+            variants={item}
             className={cx(styles.glitch, css`
               &:before{
                 animation-delay: ${Math.random()}s;
@@ -91,9 +122,9 @@ export default function Lucky(props) {
             data-text={name}
           >
             {name}
-          </span>
+          </motion.span>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
