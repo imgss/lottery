@@ -3,16 +3,38 @@
   "version": "2.0",
   "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
   "functionRoot": "./cloudfunctions",
-  "functions": [{
-    "name": "login",
-    "timeout": 5,
-    "envVariables": {},
-    "runtime": "Nodejs10.15",
-    "memory": 256,
-    "aclRule": {
-      "invoke": true
+  "functions": [
+    {
+      "name": "get-all-joiners",
+      "timeout": 5,
+      "envVariables": {},
+      "runtime": "Nodejs10.15",
+      "memory": 256,
+      "aclRule": {
+        "invoke": true
+      }
+    },
+    {
+      "name": "is-joined",
+      "timeout": 5,
+      "envVariables": {},
+      "runtime": "Nodejs10.15",
+      "memory": 256,
+      "aclRule": {
+        "invoke": true
+      }
+    },
+    {
+      "name": "join",
+      "timeout": 5,
+      "envVariables": {},
+      "runtime": "Nodejs10.15",
+      "memory": 256,
+      "aclRule": {
+        "invoke": true
+      }
     }
-  }],
+  ],
   "region": "ap-shanghai",
   "framework": {
     "name": "lottery2",

@@ -1,12 +1,13 @@
 import './App.css';
 import Lottery from './views/lottery';
 import Join from './views/join';
+import 'antd-mobile/dist/antd-mobile.css';
+
 
 import {
   HashRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 function App() {

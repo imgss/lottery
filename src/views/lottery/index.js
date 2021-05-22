@@ -5,9 +5,7 @@ import Lottery from "./components/Lottery/Lottery";
 import Lucky from "./components/Lucky";
 import { getLucks } from "../../utils/getLucky";
 import { css } from '@emotion/css/macro';
-import { getApp } from '../../tcb';
 
-const app = getApp();
 
 const styles = {
   btns: css`
@@ -26,7 +24,12 @@ export default function LotteryApp() {
 
   const addNames = useCallback(
     (v) => {
-      const names = v.split(/,|，|\s/).filter(name => !/^\s*$/.test(name));
+      let names = [];
+      if (typeof names === 'string') {
+        names = v.split(/,|，|\s/).filter(name => !/^\s*$/.test(name));
+      } else {
+        names = v;
+      }
       addUsers([...new Set([...users, ...names])]);
     },
     [addUsers, users]

@@ -1,14 +1,16 @@
 const cloud = require("@cloudbase/node-sdk");
-
 const app = cloud.init({
   env: cloud.SYMBOL_CURRENT_ENV,
 });
 const db = app.database();
 
 exports.main = async (event, context) => {
-  console.log(event);
-  // db.collection("joiners").add();
+   console.log(JSON.stringify({event, context}));
+
+  await db.collection('joiners').add(event);
   return {
-    success: true
-  }
+    result: event,
+    success: true,
+    message: '参加成功',
+  };
 };

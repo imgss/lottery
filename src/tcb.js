@@ -10,3 +10,14 @@ export const getApp = () => {
   });
   return app;
 };
+
+export const app = getApp();
+
+const auth = app.auth();
+
+export async function login(){
+  await auth.anonymousAuthProvider().signIn();
+  // 匿名登录成功检测登录状态isAnonymous字段为true
+  const loginState = await auth.getLoginState();
+  return loginState.user;
+}
