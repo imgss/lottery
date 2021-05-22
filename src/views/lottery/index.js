@@ -1,10 +1,13 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Context from "./context";
 import NameInput from "./components/NameInput";
 import Lottery from "./components/Lottery/Lottery";
 import Lucky from "./components/Lucky";
-import { getLucks } from "../utils/getLucky";
+import { getLucks } from "../../utils/getLucky";
 import { css } from '@emotion/css/macro';
+import { getApp } from '../../tcb';
+
+const app = getApp();
 
 const styles = {
   btns: css`

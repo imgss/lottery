@@ -1,5 +1,5 @@
 import { css, keyframes, cx } from "@emotion/css/macro";
-import { random } from "../../utils/getLucky";
+import { random } from "../../../utils/getLucky";
 import { motion } from "framer-motion";
 
 // from https://codepen.io/lbebber/pen/ypgql
