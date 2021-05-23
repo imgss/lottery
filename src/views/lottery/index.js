@@ -1,10 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import Context from "./context";
 import NameInput from "./components/NameInput";
 import Lottery from "./components/Lottery/Lottery";
 import Lucky from "./components/Lucky";
 import { getLucks } from "../../utils/getLucky";
 import { css } from '@emotion/css/macro';
+
+import { login, app } from "../../tcb";
 
 
 const styles = {
@@ -18,6 +20,7 @@ const styles = {
 
 export default function LotteryApp() {
   const [users, addUsers] = useState([]);
+  const [remoteUsers, setRemoteUsers] = useState([]);
   const [lucks, addLucks] = useState([]);
   const [luckyCount, setLuckyCount] = useState(1);
   const [lotteryShown, setLotteryShown] = useState(false);
@@ -25,14 +28,15 @@ export default function LotteryApp() {
   const addNames = useCallback(
     (v) => {
       let names = [];
-      if (typeof names === 'string') {
+      if (typeof v === 'string') {
         names = v.split(/,|，|\s/).filter(name => !/^\s*$/.test(name));
       } else {
         names = v;
       }
+
       addUsers([...new Set([...users, ...names])]);
     },
-    [addUsers, users]
+    [users]
   );
 
   const clearNames = useCallback(() => {
@@ -43,9 +47,29 @@ export default function LotteryApp() {
     addLucks(getLucks(users, luckyCount));
   }, [users, luckyCount]);
 
+  useEffect(() => {
+    let intervalId = null;
+    login().then(() => {
+      intervalId = setInterval(() => {
+        app.callFunction({
+          name: 'get-all-joiners',
+        }).then(({ result }) => {
+          const names = result.joiners.map(({ name, id }) => `${name}-${id}`);
+          setRemoteUsers(names);
+        });
+      }, 2000);
+      console.log(intervalId);
+    });
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const allUsers = useMemo(() => {
+    return [...new Set([...users, ...remoteUsers])]
+  }, [users, remoteUsers])
+
   return (
     <Context.Provider
-      value={{ users, lucks, luckyCount, addLucks, addNames, setLuckyCount, clearNames }}
+      value={{ users: allUsers, lucks, luckyCount, addLucks, addNames, setLuckyCount, clearNames }}
     >
       {!lotteryShown ? <NameInput /> : <Lottery />}
       {lucks.length ? <Lucky lucks={lucks} /> : null}

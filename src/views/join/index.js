@@ -8,6 +8,7 @@ export default function Join() {
   const [name, setName] = useState('');
   const [ID, setID] = useState('');
   const [isJoined, setIsJoined] = useState(false);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     login().then((user) => {
@@ -19,6 +20,7 @@ export default function Join() {
         }
       }).then(({ result = {} }) => {
         setIsJoined(result.isJoined);
+        setTotal(result.joinedCount);
       }).catch(console.error)
     })
   }, []);
@@ -34,15 +36,19 @@ export default function Join() {
         name,
         id: ID,
       }
-    }).then(console.log).catch(console.error);
+    }).then(({ result }) => {
+      if (result.success) {
+        setIsJoined(true);
+      }
+    }).catch(console.error);
   }
 
   if (isJoined) {
     return <Result 
       style={{ background: 'rgba(255,255,255,0.8)', height: '100vh' }}
       imgUrl={HappyIcon}
-      title="加入成功"
-      message="相信你就是那个锦鲤～"
+      title="加入成功!"
+      message={<div>已经有{total}名小伙伴参与抽奖<br />相信你就是那个锦鲤～</div>}
     />
   }
 

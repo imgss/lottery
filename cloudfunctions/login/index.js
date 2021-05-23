@@ -6,7 +6,6 @@ const app = cloud.init({
 const db = app.database();
 
 exports.main = async (event, context) => {
-  console.log(event);
   // db.collection("joiners").add();
   return {
     success: true

@@ -7,8 +7,10 @@ const db = app.database();
 exports.main = async (event, context) => {
   try {
     const res = await db.collection('joiners').where(event).get();
+    const allData = await db.collection('joiners').count()
     return {
       isJoined: res.data.length > 0,
+      joinedCount: allData.total,
       success: true,
       message: 'success',
     };

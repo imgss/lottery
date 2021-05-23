@@ -3,7 +3,6 @@ import Qrcode from 'qrcode.react';
 import { css } from "@emotion/css";
 
 import Context from "../context";
-import { login, app } from "../../../tcb";
 
 const styles = {
   userList: css`
@@ -44,21 +43,6 @@ export default function NameInput(props = {}) {
     setVal("");
   }, [addNames, val]);
 
-  useEffect(() => {
-    let intervalId = null;
-    login().then((user) => {
-      intervalId = setInterval(() => {
-        app.callFunction({
-          name: 'get-all-joiners',
-        }).then(({ result }) => {
-          const names = result.joiners.map(({ name, id }) => `${name}-${id}`);
-          addNames(names);
-        });
-      }, 2000);
-    })
-    return clearInterval(intervalId);
-  }, []);
-
   return (
     <div>
       <p>请输入候选人姓名 or 邀请候选人扫描下方二维码：</p>
@@ -69,7 +53,6 @@ export default function NameInput(props = {}) {
             placeholder="请输入候选人姓名，可以用','分隔"
             onInput={(e) => setVal(e.target.value)}
             onKeyDown={(e) => {
-              console.log(e);
               e.code === "Enter" && handleAdd();
             }}
           />
