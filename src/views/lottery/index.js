@@ -18,6 +18,8 @@ const styles = {
   `
 };
 
+let intervalId = null;
+
 export default function LotteryApp() {
   const [users, addUsers] = useState([]);
   const [remoteUsers, setRemoteUsers] = useState([]);
@@ -48,9 +50,13 @@ export default function LotteryApp() {
   }, [users, luckyCount]);
 
   useEffect(() => {
-    let intervalId = null;
+    console.log({intervalId});
+    clearInterval(intervalId);
     login().then(() => {
       intervalId = setInterval(() => {
+        if (lotteryShown) {
+          return;
+        }
         app.callFunction({
           name: 'get-all-joiners',
         }).then(({ result }) => {
@@ -61,7 +67,7 @@ export default function LotteryApp() {
       console.log(intervalId);
     });
     return () => clearInterval(intervalId);
-  }, []);
+  }, [lotteryShown]);
 
   const allUsers = useMemo(() => {
     return [...new Set([...users, ...remoteUsers])]
@@ -76,7 +82,7 @@ export default function LotteryApp() {
       <div className={styles.btns}>
         <button
           onClick={() => setLotteryShown(true)}
-          disabled={users.length === 0}
+          disabled={allUsers.length === 0}
         >抽 奖</button>
         <button onClick={showLucky}>开 奖</button>
         <button onClick={() => {

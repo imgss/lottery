@@ -8,7 +8,8 @@ export default function draw(c, names = []) {
   c.width = window.innerWidth;
 
   const backgroundColor = "rgba(0, 0, 0, 0.15)";
-  const defaultSpeed = 50;
+  // 控制绘制时间间隔
+  const defaultSpeed = 60;
   const space = 0.3;
   const font_size = 12;
   var columns = c.width / font_size; //number of columns for the rain
@@ -29,7 +30,10 @@ export default function draw(c, names = []) {
     },
     getLetters: function () {
       if (this.langArr.length) {
-        return this.langArr.map(str => str.split(""));
+        return this.langArr.map(str => {
+          const letters = str.split("");
+          return letters.length > 3 ? [...letters.slice(0, 3), '...'] : letters;
+        });
       }
     },
   };
@@ -228,9 +232,8 @@ export default function draw(c, names = []) {
     var letters = LangManager.getLetters();
     //looping over drops
     for (var i = 0; i < drops.length; i++) {
-      //a random chinese character to print
+
       var text = letters[i % letters.length];
-      //x = i*font_size, y = value of drops[i]*font_size
 
       //sending the drop back to the top randomly after it has crossed the screen
       //adding a randomness to the reset to make the drops scattered on the Y axis

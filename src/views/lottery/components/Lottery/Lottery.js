@@ -1,8 +1,8 @@
-import { useContext, useCallback } from "react";
+import React, { useContext, useCallback } from "react";
 import Context from "../../context";
 import draw from "./draw";
 
-export default function Lottery() {
+export default React.memo(function Lottery() {
   const { users } = useContext(Context);
   const ref = useCallback(
     (canvas) => {
@@ -14,4 +14,4 @@ export default function Lottery() {
   );
 
   return <canvas ref={ref}></canvas>;
-}
+});
