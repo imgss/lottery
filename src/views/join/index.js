@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Button, List, InputItem, WingBlank, WhiteSpace, Result } from 'antd-mobile';
+import { Button, List, InputItem, WingBlank, WhiteSpace, Result, Toast } from 'antd-mobile';
 import { app, login } from '../../tcb';
 import HappyIcon from './img/happy.svg';
 
@@ -25,9 +25,16 @@ export default function Join() {
     })
   }, []);
 
-  const handleJoin = function() {
-    console.log(user);
+  const handleJoin = () => {
     const { uid } = user;
+    if (!name || /\s+/.test(name)) {
+      Toast.info('请输入姓名');
+      return;
+    }
+    if (!ID || /\s+/.test(ID)) {
+      Toast.info('请输入工号');
+      return;
+    }
 
     app.callFunction({
       name: 'join',
@@ -59,6 +66,7 @@ export default function Join() {
         <InputItem
           placeholder="请输入您的姓名"
           onChange={setName}
+          required
           value={name}
         >
           您的姓名：
@@ -67,6 +75,7 @@ export default function Join() {
           placeholder="请输入您的工号"
           value={ID}
           onChange={setID}
+          required
         >
           您的工号：
         </InputItem>
