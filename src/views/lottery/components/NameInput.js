@@ -29,8 +29,8 @@ const styles = {
     max-width: 9em;
     overflow: hidden;
     text-overflow: ellipsis;
-    background: raba(0,0,0,0.3);
-    padding: 2px 5px;
+    background: rgba(0,0,0,0.3);
+    padding: 2px 9px;
     border-radius: 3px;
   `,
 };
@@ -50,6 +50,7 @@ export default function NameInput(props = {}) {
         <div>
           <textarea
             value={val}
+            style={{ fontSize: 14 }}
             placeholder="请输入候选人姓名，可以用','分隔"
             onInput={(e) => setVal(e.target.value)}
             onKeyDown={(e) => {
