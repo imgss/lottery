@@ -1,4 +1,4 @@
-import { useContext, useState, useCallback, useEffect } from "react";
+import { useContext, useState, useCallback } from "react";
 import Qrcode from 'qrcode.react';
 import { css } from "@emotion/css";
 

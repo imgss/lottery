@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, List, InputItem, WingBlank, WhiteSpace, Result, Toast } from 'antd-mobile';
 import { app, login } from '../../tcb';
 import HappyIcon from './img/happy.svg';
@@ -47,7 +47,9 @@ export default function Join() {
       if (result.success) {
         setIsJoined(true);
       }
-    }).catch(console.error);
+    }).catch((err) => {
+      Toast.info('加入失败');
+    });
   }
 
   if (isJoined) {
