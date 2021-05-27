@@ -45,10 +45,6 @@ export default function LotteryApp() {
     addUsers([]);
   }, [])
 
-  const showLucky = useCallback(() => {
-    addLucks(getLucks(users, luckyCount));
-  }, [users, luckyCount]);
-
   useEffect(() => {
     console.log({intervalId});
     clearInterval(intervalId);
@@ -71,7 +67,11 @@ export default function LotteryApp() {
 
   const allUsers = useMemo(() => {
     return [...new Set([...users, ...remoteUsers])]
-  }, [users, remoteUsers])
+  }, [users, remoteUsers]);
+
+  const showLucky = useCallback(() => {
+    addLucks(getLucks(allUsers, luckyCount));
+  }, [allUsers, luckyCount]);
 
   return (
     <Context.Provider
